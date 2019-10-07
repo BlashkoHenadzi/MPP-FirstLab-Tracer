@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Tracer
 {
-    class TraceResult
+    class TraceResult:ITraceResult
     {
+        public void ConvertToJsonResult()
+        {
+
+        }
+        public void ConvertToXmlResult()
+        {
+
+        }
     }
 }

@@ -22,15 +22,21 @@ namespace Tracer
             Watch = new Stopwatch();
         }
         
+        
         public void StartCalculation()
         {
             Watch.Start();
-
         }
         public void StopCalculation()
         {
             Watch.Stop();
             this.Time = Watch.ElapsedMilliseconds;
+        }
+        public void AddMethod(MethodTracing method)
+        {
+           
+            this.MethodsList.Add(method);
+            
         }
     }
 }
