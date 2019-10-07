@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Output\IOutputResult.cs" />
     <Compile Include="SerializationResult\ITraceResult.cs" />
     <Compile Include="SerializationResult\JsonSerializer.cs" />
     <Compile Include="SerializationResult\XmlSerializer.cs" />
@@ -60,5 +61,6 @@
       <Name>Tracer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

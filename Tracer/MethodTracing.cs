@@ -10,11 +10,11 @@ namespace Tracer
     [Serializable]
     public class MethodTracing
     {
+        public long Time;
+        public  string methodname;
+        public  string classname;
+        public  List<MethodTracing> MethodsList;
         
-        private readonly string methodname;
-        private readonly string classname;
-        private readonly List<MethodTracing> MethodsList;
-        public  long Time;
         [NonSerialized]
         private Stopwatch Watch;
         public  MethodTracing(string methodname, string classname)

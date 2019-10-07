@@ -11,11 +11,13 @@ namespace Tracer
     public class TracedThread
     {
         [DataMember]
-        public List<MethodTracing> threadmethodslist;
+        public int threadId;
         [DataMember]
         public long threadtime;
         [DataMember]
-        public int threadId;
+        public List<MethodTracing> threadmethodslist;
+       
+       
         public TracedThread(int threadId, List<MethodTracing> threadmethodslist)
         {
             this.threadId = threadId;

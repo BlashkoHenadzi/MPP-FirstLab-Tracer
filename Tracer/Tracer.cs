@@ -23,17 +23,8 @@ namespace Tracer
         {
             MethodBase MethodFrame = GetMethodFrame();
             int ThreadFrameId = Thread.CurrentThread.ManagedThreadId;           
-            ConcurrentStack<MethodTracing> stack = threadtracinglist.GetOrAdd(ThreadFrameId, new ConcurrentStack<MethodTracing>());
-            
-
-            MethodTracing parentmethod;
-            stack.TryPeek(out parentmethod);
-            MethodTracing methodtracing = new MethodTracing(MethodFrame.Name, GetClassNameByMethodName(MethodFrame));
-            if (parentmethod != null)
-            {
-                parentmethod.AddMethod(methodtracing);
-                
-            }            
+            ConcurrentStack<MethodTracing> stack = threadtracinglist.GetOrAdd(ThreadFrameId, new ConcurrentStack<MethodTracing>());                       
+            MethodTracing methodtracing = new MethodTracing(MethodFrame.Name, GetClassNameByMethodName(MethodFrame));                      
             stack.Push(methodtracing);
             methodtracing.StartCalculation();
         }
@@ -62,11 +53,11 @@ namespace Tracer
         }
         private string GetClassNameByMethodName(MethodBase methodname)
         {
-            return methodname.DeclaringType.ToString();
+            return methodname.DeclaringType.Name;
         }
         private MethodBase GetMethodFrame()
         {
-            return new StackTrace().GetFrame(1).GetMethod();
+            return new StackTrace().GetFrame(2).GetMethod();
         } 
         public TraceResult GetTraceResult()
         {

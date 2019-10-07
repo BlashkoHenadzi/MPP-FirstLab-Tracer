@@ -11,8 +11,48 @@ namespace TracerApp
 {
     class Program
     {
+        public class Foo
+        {
+            private Bar _bar;
+            private Tracer.Tracer _tracer;
+
+            internal Foo(Tracer.Tracer tracer)
+            {
+                _tracer = tracer;
+                _bar = new Bar(_tracer);
+            }
+
+            public void MyMethod()
+            {
+                _tracer.StartTrace();
         
-            static private Tracer.Tracer _tracer = new Tracer.Tracer();
+                _bar.InnerMethod();
+                Thread.Sleep(300);
+
+                _tracer.StopTrace();
+            }
+        }
+
+        public class Bar
+        {
+            private Tracer.Tracer _tracer;
+
+            internal Bar(Tracer.Tracer tracer)
+            {
+                _tracer = tracer;
+            }
+
+            public void InnerMethod()
+            {
+                _tracer.StartTrace();
+                Console.Write("fffff");
+                Thread.Sleep(100);
+                _tracer.StopTrace();
+            }
+        }
+
+
+        static private Tracer.Tracer _tracer = new Tracer.Tracer();
            
 
             static void DoIT()
@@ -26,33 +66,23 @@ namespace TracerApp
 
             static void m0()
             {
-                _tracer.StartTrace();
-                Thread.Sleep(100);
-                m1();
-                _tracer.StartTrace();
-                Thread.Sleep(15);
-                _tracer.StopTrace();
-                _tracer.StopTrace();
-            }
+           // _tracer.StartTrace();
+            Console.Write("testtttt");
+           // _tracer.StopTrace();
+        }
 
-            static void m1()
-            {
-                _tracer.StartTrace();
-                Thread.Sleep(100);
-                _tracer.StopTrace();
-            }
+           
 
             static void Main(string[] args)
             {
-                Thread thread1 = new Thread(new ThreadStart(DoIT));
-                Thread thread2 = new Thread(new ThreadStart(DoIT));
-                thread1.Name = "FIRST";
-                thread2.Name = "SECOND";
+                Tracer.Tracer _tracer = new Tracer.Tracer();
+               Thread thread1 = new Thread(new Foo(_tracer).MyMethod);              
+                thread1.Name = "FIRST";               
                 thread1.Start();            
                 Thread.Sleep(100);
-                thread2.Start();
+               // thread2.Start();
                 thread1.Join(); // wait all threads terminate
-                thread2.Join();
+               // thread2.Join();
                 foreach (TracedThread thread in _tracer.GetTraceResult().tracedthreadslist)
                 Console.WriteLine(thread.threadId + "  " + thread.threadtime);
                 Console.ReadLine();
