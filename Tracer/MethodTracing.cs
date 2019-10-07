@@ -7,13 +7,16 @@ using System.Diagnostics;
 
 namespace Tracer
 {
-    class MethodTracing
+    [Serializable]
+   public class MethodTracing
     {
-        private Stopwatch Watch { get; }
+        
         private readonly string methodname;
         private readonly string classname;
         private readonly List<MethodTracing> MethodsList;
-        private  long Time;
+        public  long Time;
+        [NonSerialized]
+        private Stopwatch Watch;
         public  MethodTracing(string methodname, string classname)
         {
             this.classname = classname;

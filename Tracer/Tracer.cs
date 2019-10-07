@@ -9,15 +9,16 @@ using System.Collections.Concurrent;
 using System.Threading;
 namespace Tracer
 {
-    class Tracer:ITracer
+    public class Tracer:ITracer
     {
         private TraceResult FinalTraceResult;
         private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> threadtracinglist;
-        ConcurrentStack<MethodTracing> finishedstack;
+        private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> finishedthreads;
         static private object locker = new object();
         public Tracer()
         {
-
+            threadtracinglist = new ConcurrentDictionary<int, ConcurrentStack<MethodTracing>>();
+            finishedthreads = new ConcurrentDictionary<int, ConcurrentStack<MethodTracing>>();
         }
         public void StartTrace()
         {
@@ -41,14 +42,15 @@ namespace Tracer
         public void StopTrace()
         {
             int ThreadFrameId = Thread.CurrentThread.ManagedThreadId;
-            ConcurrentStack<MethodTracing> stack = null; ;
-            threadtracinglist.TryGetValue(ThreadFrameId,out stack);
+            ConcurrentStack<MethodTracing> processingstack = null;
+            ConcurrentStack<MethodTracing> finishedstack = finishedthreads.GetOrAdd(ThreadFrameId,new ConcurrentStack<MethodTracing>());
+            threadtracinglist.TryGetValue(ThreadFrameId,out processingstack);
             MethodTracing method = null;
-            if (stack != null)
+            if (processingstack != null)
             {
-                stack.TryPop(out method);
+                processingstack.TryPop(out method);
                 method.StopCalculation();
-                if (stack.TryPop(out var parentmethod))
+                if (processingstack.TryPeek(out var parentmethod))
                 {
                     parentmethod.AddMethod(method);
                 }
@@ -69,7 +71,7 @@ namespace Tracer
         } 
         public TraceResult GetTraceResult()
         {
-            return null;
+            return new TraceResult(finishedthreads);
         }
     }
     
