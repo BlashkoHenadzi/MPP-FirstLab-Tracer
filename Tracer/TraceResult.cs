@@ -7,11 +7,17 @@ using System.Collections.Concurrent;
 using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 namespace Tracer
 {
+    [DataContract]
+    [Serializable]
     public class TraceResult
     {
-        public List<TracedThread> tracedthreadslist;        
+        [DataMember]
+        
+        public List<TracedThread> tracedthreadslist;  
+        
         public static T DeepClone<T>(T obj)
         {
             using (var ms = new MemoryStream())
@@ -33,7 +39,10 @@ namespace Tracer
                 tracedthreadslist.Add(new TracedThread(thread.Key, clonedmethods));
             }          
             
-        }           
+        }
+        public TraceResult()
+        {
+        }
         
     }
 }

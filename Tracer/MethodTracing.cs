@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace Tracer
 {
     [Serializable]
-   public class MethodTracing
+    public class MethodTracing
     {
         
         private readonly string methodname;
@@ -24,8 +24,11 @@ namespace Tracer
             MethodsList = new List<MethodTracing>();
             Watch = new Stopwatch();
         }
-        
-        
+        public MethodTracing()
+        {
+
+        }
+
         public void StartCalculation()
         {
             Watch.Start();

@@ -10,8 +10,7 @@ using System.Threading;
 namespace Tracer
 {
     public class Tracer:ITracer
-    {
-        private TraceResult FinalTraceResult;
+    {      
         private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> threadtracinglist;
         private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> finishedthreads;
         static private object locker = new object();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Tracer;
 using System.Threading;
 using System.IO;
-
+using TracerApp.SerializationResult;
 namespace TracerApp
 {
     class Program
@@ -56,7 +56,9 @@ namespace TracerApp
                 foreach (TracedThread thread in _tracer.GetTraceResult().tracedthreadslist)
                 Console.WriteLine(thread.threadId + "  " + thread.threadtime);
                 Console.ReadLine();
-
+                ITraceResult serial = new XMLSerializer();
+                Console.WriteLine(serial.SerializeResult(_tracer.GetTraceResult()));
+                Console.ReadLine();
         }
         
     }
