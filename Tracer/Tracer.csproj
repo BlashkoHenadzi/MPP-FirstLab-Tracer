@@ -42,7 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITracer.cs" />
+    <Compile Include="MethodTracing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadTracing.cs" />
+    <Compile Include="Tracer.cs" />
+    <Compile Include="TraceResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
