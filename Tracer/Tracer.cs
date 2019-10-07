@@ -12,7 +12,7 @@ namespace Tracer
     class Tracer:ITracer
     {
         private TraceResult FinalTraceResult;
-        private ConcurrentDictionary<int, ThreadTracing> threadtracinglist;
+        private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> threadtracinglist;
         static private object locker = new object();
         public Tracer()
         {
@@ -21,13 +21,20 @@ namespace Tracer
         public void StartTrace()
         {
             MethodBase MethodFrame = GetMethodFrame();
-            int ThreadFrameId = Thread.CurrentThread.ManagedThreadId;
-            MethodTracing methodtracing = new MethodTracing();
-            ThreadTracing threadtracing = AddToThreadTracingList(ThreadFrameId);
+            int ThreadFrameId = Thread.CurrentThread.ManagedThreadId;           
+            ConcurrentStack<MethodTracing> stack = threadtracinglist.GetOrAdd(ThreadFrameId, new ConcurrentStack<MethodTracing>());
+            MethodTracing methodtracing = new MethodTracing(MethodFrame.Name, GetClassNameByMethodName(MethodFrame));
+            stack.Push(methodtracing);
+            methodtracing.StartCalculation();
+
         }
         public void StopTrace()
         {
 
+        }
+        private string GetClassNameByMethodName(MethodBase methodname)
+        {
+            return methodname.DeclaringType.ToString();
         }
         private MethodBase GetMethodFrame()
         {
