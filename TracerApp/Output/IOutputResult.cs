@@ -8,5 +8,6 @@ namespace TracerApp.Output
 {
     interface IOutputResult
     {
+        void OutputTraceResult(string result);
     }
 }

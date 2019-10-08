@@ -4,15 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-
+using System.Runtime.Serialization;
 namespace Tracer
 {
+    [DataContract]
     [Serializable]
     public class MethodTracing
     {
+        [DataMember(Order = 2)]
         public long Time;
+        [DataMember (Order = 0)]
         public  string methodname;
+        [DataMember(Order = 1)]
         public  string classname;
+        [DataMember(Order = 3)]
         public  List<MethodTracing> MethodsList;
         
         [NonSerialized]

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Tracer;
 using System.Runtime.Serialization.Json;
+
 namespace TracerApp.SerializationResult
 {
     class JsonSerializer : ITraceResult
@@ -16,8 +17,11 @@ namespace TracerApp.SerializationResult
             using (MemoryStream ms = new MemoryStream())
             {
                 jsonFormatter.WriteObject(ms, result);
-                var jsonString = Encoding.Default.GetString((ms.ToArray()));
-                return jsonString;
+                var fff = ms.ToArray();                
+                string jsonString = Encoding.Default.GetString((ms.ToArray()));
+                return JsonHelper.FormatJson(jsonString);
+
+
             }
 
         }

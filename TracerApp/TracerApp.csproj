@@ -45,8 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Output\ConsolePrinter.cs" />
+    <Compile Include="Output\FileSaver.cs" />
     <Compile Include="Output\IOutputResult.cs" />
     <Compile Include="SerializationResult\ITraceResult.cs" />
+    <Compile Include="SerializationResult\JsonHelper.cs" />
     <Compile Include="SerializationResult\JsonSerializer.cs" />
     <Compile Include="SerializationResult\XmlSerializer.cs" />
     <Compile Include="Program.cs" />

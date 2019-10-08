@@ -10,21 +10,25 @@ namespace Tracer
     [Serializable]
     public class TracedThread
     {
-        [DataMember]
-        public int threadId;
-        [DataMember]
-        public long threadtime;
-        [DataMember]
+        [DataMember(Order = 2)]
         public List<MethodTracing> threadmethodslist;
+        [DataMember (Order = 0)]
+        public int threadId;
+        [DataMember(Order = 1)]
+        public long Time;
+
+       
        
        
         public TracedThread(int threadId, List<MethodTracing> threadmethodslist)
         {
             this.threadId = threadId;
-            this.threadmethodslist = threadmethodslist;
-            this.threadtime = 0;
+            this.Time = 0;
             foreach (MethodTracing method in threadmethodslist)
-                threadtime += method.Time;
+                this.Time += method.Time;
+            this.threadmethodslist = threadmethodslist;
+            
+           
 
         }
         public TracedThread()

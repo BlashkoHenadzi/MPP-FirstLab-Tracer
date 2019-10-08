@@ -84,9 +84,9 @@ namespace TracerApp
                 thread1.Join(); // wait all threads terminate
                // thread2.Join();
                 foreach (TracedThread thread in _tracer.GetTraceResult().tracedthreadslist)
-                Console.WriteLine(thread.threadId + "  " + thread.threadtime);
+                Console.WriteLine(thread.threadId + "  " + thread.Time);
                 Console.ReadLine();
-                ITraceResult serial = new XMLSerializer();
+            ITraceResult serial = new JsonSerializer();
                 Console.WriteLine(serial.SerializeResult(_tracer.GetTraceResult()));
                 Console.ReadLine();
         }
