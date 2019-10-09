@@ -21,20 +21,20 @@ namespace Tracer
         }
         public void StartTrace()
         {
-            MethodBase MethodFrame = GetMethodFrame();
-            int ThreadFrameId = Thread.CurrentThread.ManagedThreadId;           
-            ConcurrentStack<MethodTracing> stack = threadtracinglist.GetOrAdd(ThreadFrameId, new ConcurrentStack<MethodTracing>());                       
-            MethodTracing methodtracing = new MethodTracing(MethodFrame.Name, GetClassNameByMethodName(MethodFrame));                      
+            MethodBase _methodframe = GetMethodFrame();
+            int _threadframeId = Thread.CurrentThread.ManagedThreadId;           
+            ConcurrentStack<MethodTracing> stack = threadtracinglist.GetOrAdd(_threadframeId, new ConcurrentStack<MethodTracing>());                       
+            MethodTracing methodtracing = new MethodTracing(GetMethodName(_methodframe), GetClassNameByMethodName(_methodframe));                      
             stack.Push(methodtracing);
             methodtracing.StartCalculation();
         }
-       
+        
         public void StopTrace()
         {
-            int ThreadFrameId = Thread.CurrentThread.ManagedThreadId;
+            int _threadframeId = Thread.CurrentThread.ManagedThreadId;
             ConcurrentStack<MethodTracing> processingstack = null;
-            ConcurrentStack<MethodTracing> finishedstack = finishedthreads.GetOrAdd(ThreadFrameId,new ConcurrentStack<MethodTracing>());
-            threadtracinglist.TryGetValue(ThreadFrameId,out processingstack);
+            ConcurrentStack<MethodTracing> finishedstack = finishedthreads.GetOrAdd(_threadframeId, new ConcurrentStack<MethodTracing>());
+            threadtracinglist.TryGetValue(_threadframeId, out processingstack);
             MethodTracing method = null;
             if (processingstack != null)
             {
@@ -50,6 +50,10 @@ namespace Tracer
           
 
 
+        }
+        private string GetMethodName(MethodBase methodname)
+        {
+            return methodname.Name.StartsWith(".ctor") ? methodname.DeclaringType.Name : methodname.Name;
         }
         private string GetClassNameByMethodName(MethodBase methodname)
         {
