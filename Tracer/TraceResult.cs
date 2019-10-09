@@ -32,8 +32,8 @@ namespace Tracer
 
          public  TraceResult(ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> threads)
         {
-            tracedthreadslist = new List<TracedThread>();            
-            foreach (KeyValuePair<int,ConcurrentStack<MethodTracing>> thread in threads)
+            tracedthreadslist = new List<TracedThread>();                                      
+            foreach (KeyValuePair<int,ConcurrentStack<MethodTracing>> thread in threads)//ToDo: TEST;
             {
                 List<MethodTracing> clonedmethods = DeepClone(thread.Value).ToList();
                 tracedthreadslist.Add(new TracedThread(thread.Key, clonedmethods));

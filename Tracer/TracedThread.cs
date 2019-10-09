@@ -15,10 +15,7 @@ namespace Tracer
         [DataMember (Order = 0)]
         public int threadId;
         [DataMember(Order = 1)]
-        public long Time;
-
-       
-       
+        public long Time;      
        
         public TracedThread(int threadId, List<MethodTracing> threadmethodslist)
         {

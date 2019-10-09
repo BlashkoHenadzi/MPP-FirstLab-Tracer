@@ -13,7 +13,7 @@ namespace Tracer
     {      
         private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> threadtracinglist;
         private ConcurrentDictionary<int, ConcurrentStack<MethodTracing>> finishedthreads;
-        static private object locker = new object();
+        //static private object locker = new object();
         public Tracer()
         {
             threadtracinglist = new ConcurrentDictionary<int, ConcurrentStack<MethodTracing>>();
